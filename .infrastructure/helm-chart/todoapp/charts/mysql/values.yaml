@@ -1,0 +1,36 @@
+mysql:
+  namespace:
+    name: mysql
+
+  secrets:
+    MYSQL_ROOT_PASSWORD: "MTIzNA==" # Base64 encoding for "1234"
+    MYSQL_USER: "YXBwX3VzZXI=" # Base64 encoding for "app_user"
+    MYSQL_PASSWORD: "MTIzNA==" # Base64 encoding for "1234"
+
+  replicas:
+    qty: 2
+
+  containers:
+    repository: mysql
+    tag: 8.0
+
+  pvc:
+    storage: 2Gi
+
+  resources:
+      cpu: 500m
+      memory: 1Gi
+
+  tolerations:
+    key: "app"
+    value: "mysql"
+
+  affinity:
+    podaffinity:
+      key: "app"
+      value:
+      - mysql
+    nodeaffinity:
+      key: "app"
+      value:
+      - "mysql"
